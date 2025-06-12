@@ -7,11 +7,4 @@
 #SBATCH --error=../%x-%j.err
 #SBATCH --mail-type=END,FAIL
 
-
-module load Anaconda3/2022.10
-
-eval "$(conda shell.bash hook)"
-
-conda activate mimic
-
 srun python multitype.py
