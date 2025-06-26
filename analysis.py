@@ -35,9 +35,9 @@ def ModelAndPredict(X_train, y_train, X_test, y_test, model):
 	model.fit(X_train, y_train.iloc[:, 0])
     
 	if hasattr(model, 'predict_proba'):
-		probs = model.predict_proba(X_test)[:, 1]  # Get probabilities if available (for classifiers)
+		probs = model.predict_proba(X_test)[:, 1]
 	else:
-		probs = model.predict(X_test)  # If it's a regressor, use predict directly
+		probs = model.predict(X_test)  
     
 	auc = sklearn.metrics.roc_auc_score(y_test.iloc[:, 0], probs)
     
@@ -93,8 +93,8 @@ def Analysis(dataset):
 		test_size = None
 	
 	#### *********** Determine X_train, X_test, y_train, y_test  BY Yourself
-	train = pd.read_csv('/Users/mkouhounesta/Desktop/mimic/prepared-data/train_with_icd.csv')
-	test  = pd.read_csv('/Users/mkouhounesta/Desktop/mimic/prepared-data/test_with_icd.csv')
+	train = pd.read_csv('../train.csv')
+	test  = pd.read_csv('../test.csv')
 	X_train = train[variable].copy()
 	y_train = train[outcome].copy()
 	X_test = test[variable].copy()
