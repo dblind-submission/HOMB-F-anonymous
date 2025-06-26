@@ -237,7 +237,6 @@ def Analysis(dataset):
 		test_objective_initial   = objective.ObjectiveFunc_m(optimized_result['m'],           optimized_result['lengths_m'], optimized_result['M_psd'], optimized_result['gamma'], optimized_result['lambda_'], ordinal_data_test, y_test)
 		test_objective_intermed  = objective.ObjectiveFunc_m(optimized_result['m_optimized'], optimized_result['lengths_m'], optimized_result['M_psd'], optimized_result['gamma'], optimized_result['lambda_'], ordinal_data_test, y_test)
 		
-		#test_objective_final     = objective.ObjectiveFunc_M(optimized_result['M_optimized_flatten'], optimized_result['Matrix_E_z'], optimized_result['matrix_var'], optimized_result['gamma'], optimized_result['lambda_'], X_test, y_test)
 		test_objective_final     = objective.ObjectiveFunc_M(optimized_result['M_optimized_flatten'], Matrix_E_z, matrix_var, optimized_result['gamma'], optimized_result['lambda_'], ordinal_data_test, y_test)
 		
 		print('test objective initial      = ', round(test_objective_initial,  2))
