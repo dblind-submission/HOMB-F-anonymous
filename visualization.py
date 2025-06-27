@@ -49,7 +49,6 @@ def plot_value_mappings(value_mappings, save_dir='plots'):
         plt.close()
 
 if __name__ == '__main__':
-# Example usage:
     X_train = pd.DataFrame([[1, 0.2, 3], [1.5, 0.2, 3], [5, 8, 9]], columns=['col1', 'col2', 'col3'])
     m = [[1, 2, 3, 4], [0.2, 0.3, 8, 10], [3, 3, 9, 11]]
 
