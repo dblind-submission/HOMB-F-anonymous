@@ -1,20 +1,5 @@
 from common import *
 
-# def map_and_replace_columns(df, columns):
-#     mappings = {}
-    
-#     for column in columns:
-#         values = df[column].values
-#         rounded_values = np.ceil(values).astype(int)
-#         unique_values = np.unique(rounded_values)
-        
-#         mapping = {old_value: new_value for new_value, old_value in enumerate(unique_values, start=1)}
-#         mapped_values = np.array([mapping[value] for value in rounded_values])
-        
-#         df[column] = mapped_values
-#         mappings[column] = mapping  # Store the mapping for each column
-    
-#     return df
 def map_and_replace_columns(df, columns):
     mappings = {}  # Dictionary to store the mapping for each column
     
@@ -34,7 +19,7 @@ def map_and_replace_columns(df, columns):
     return df
 def PrepareMimicData():
       
-	X = pd.read_csv('/Users/mkouhounesta/Desktop/mimic/prepared-data/train_with_icd.csv')
+	X = pd.read_csv('../train.csv')
 	y = X[['outcome_hospitalization']].rename(columns={'outcome_hospitalization': 'Class'})
   
 	ordinal_columns = ['triage_acuity', 'triage_pain']
