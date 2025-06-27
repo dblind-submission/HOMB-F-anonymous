@@ -121,19 +121,7 @@ def Analysis(dataset):
 
 	X_train_processed, X_test_processed = preprocess_student.preprocess_student_data(X_train, X_test)
 
-	# for model_name, model in models:
-	# 	base_results = ModelAndPredict(X_train_processed, y_train, X_test_processed, y_test, model)
-	# 	probs_base = base_results['probs']
-	# 	result_baseline = PlotROCCurve(probs_base, y_test.iloc[:, 0], model_name, ci=confidence_interval, random_seed=random_seed)
-	# 	results_baseline = [model_name]
-	# 	results_baseline.extend(result_baseline)
-	# 	result_list_baseline.append(results_baseline)
-
-	# result_baseline_df = pd.DataFrame(result_list_baseline, columns=['Model', 'auroc', 'ap', 'sensitivity', 'specificity', 'threshold', 
-    #                                            'lower_auroc', 'upper_auroc', 'std_auroc', 'lower_ap', 'upper_ap', 
-    #                                            'std_ap', 'lower_sensitivity', 'upper_sensitivity', 'std_sensitivity',
-    #                                            'lower_specificity', 'upper_specificity', 'std_specificity'])
-	# result_baseline_df.to_csv(f"plots/baseline_{TRAIN_SIZE}_{dataset}.csv", index=False)
+	
 	
 	
 	## Prepare data for metric learning
