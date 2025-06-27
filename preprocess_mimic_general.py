@@ -4,8 +4,8 @@ from category_encoders import TargetEncoder
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 encoder = LabelEncoder()
-train = pd.read_csv('/Users/mkouhounesta/Desktop/mimic/prepared-data/train_with_icd.csv')
-test = pd.read_csv('/Users/mkouhounesta/Desktop/mimic/prepared-data/test_with_icd.csv')
+train = pd.read_csv('../train.csv')
+test = pd.read_csv('../test.csv')
 
 variable = ["age", "gender", 
             
@@ -120,9 +120,7 @@ def preprocess_mimic_data(X_train, X_test, y_train, y_test):
     merged_data = pd.merge(X_train, y_train,  left_index=True, right_index=True)
 
     merged_data['outcome_encoded'] = encoder.fit_transform(merged_data['outcome_hospitalization'])
-    ## ***** preprocess train *****
 
-    ## **********************    Start New Modification       *************************
     encoded_expressions_sum = []
     expression_to_encoded = {}
     for index, row in merged_data.iterrows():
@@ -141,26 +139,6 @@ def preprocess_mimic_data(X_train, X_test, y_train, y_test):
 
     merged_data['chiefcomplaint_encoded_sklearn'] = encoded_expressions_sum
 
-############### Calculating for icd_title ######################
-    # encoded_expressions_icd_sum = []
-    # icd_expression_to_encoded = {}
-
-    # for index, row in merged_data.iterrows():
-    #     expressions_icd = row['icd_title'].split(',')
-    #     encoded_sum_icd = 0
-    
-    #     for expression in expressions_icd:
-    #         if expression not in icd_expression_to_encoded:
-    #             subset = merged_data[merged_data['icd_title'] == expression]
-    #             Target_Encoder4.fit(subset['icd_title'], subset['outcome_encoded'])
-    #             encoded_icd_value = Target_Encoder4.transform(pd.DataFrame({'icd_title': [expression]}))['icd_title'][0]
-    #             icd_expression_to_encoded[expression] = encoded_icd_value
-    #         encoded_sum_icd += icd_expression_to_encoded[expression]
-    
-    #     encoded_expressions_icd_sum.append(encoded_sum_icd)
-    # merged_data['icd_title_encoded_sklearn'] = encoded_expressions_icd_sum
-
-    ## **********************      End Modification           *************************
     merged_data['race_encoded_sklearn']  = Target_Encoder2.fit_transform(merged_data['race'], merged_data['outcome_encoded'])
     merged_data['arrival_transport_sklearn']  = Target_Encoder3.fit_transform(merged_data['arrival_transport'], merged_data['outcome_encoded'])
     X_train_encoded = merged_data.drop(['chiefcomplaint', 'race', 'arrival_transport'], axis=1)
@@ -170,11 +148,9 @@ def preprocess_mimic_data(X_train, X_test, y_train, y_test):
                                 "arrival_transport_sklearn": "arrival_transport"}, inplace=True)
     X_train_encoded = X_train_encoded.drop(columns=['outcome_hospitalization','outcome_encoded'])
 
-#########################################        Working on Test
 
     X_test_encoded = X_test.copy()
 
-## **********************    Start New Modification       *************************
     encoded_expressions_sum_test = []
     encoded_expressions_icd_sum_test = []
     for index, row in X_test_encoded.iterrows():
@@ -192,24 +168,7 @@ def preprocess_mimic_data(X_train, X_test, y_train, y_test):
         encoded_expressions_sum_test.append(encoded_sum_test)
     X_test_encoded['chiefcomplaint_encoded_sklearn'] = encoded_expressions_sum_test
 
-    ###icd
-    # for index, row in X_test_encoded.iterrows():
-    #     expressions_icd_test = row['icd_title'].split(',')
-    #     encoded_sum_icd_test = 0
     
-    #     for expression in expressions_icd_test:
-    #         if expression not in icd_expression_to_encoded:
-    #             nearest_indices = find_nearest_strings(list(icd_expression_to_encoded.keys()), expression, k=5)
-    #             nearest_icd_values = [icd_expression_to_encoded[list(icd_expression_to_encoded.keys())[idx]] for idx in nearest_indices]
-    #             mean_icd_encoded_value = sum(nearest_icd_values) / len(nearest_icd_values)
-    #             icd_expression_to_encoded[expression] = mean_icd_encoded_value
-    #         encoded_sum_icd_test += icd_expression_to_encoded[expression]
-    
-    #     encoded_expressions_icd_sum_test.append(encoded_sum_icd_test)
-    # X_test_encoded['icd_title_encoded_sklearn'] = encoded_expressions_icd_sum_test
-
-
-## **********************      End Modification           *************************
 
     X_test_encoded['race_encoded_sklearn'] = Target_Encoder2.transform(X_test_encoded['race'])
     X_test_encoded['arrival_transport_sklearn'] = Target_Encoder3.transform(X_test_encoded['arrival_transport'])
@@ -219,7 +178,6 @@ def preprocess_mimic_data(X_train, X_test, y_train, y_test):
                                 # "icd_title_encoded_sklearn": "icd_title",
                                 "race_encoded_sklearn": "race",
                                 "arrival_transport_sklearn": "arrival_transport"}, inplace=True)
-####################################################   End Test preprocessing #################
 
     X_train_processed = process(X_train_encoded)
     X_test_processed = process(X_test_encoded)
