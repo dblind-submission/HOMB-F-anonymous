@@ -92,7 +92,6 @@ def Analysis(dataset):
 		train_size = TRAIN_SIZE
 		test_size = None
 	
-	#### *********** Determine X_train, X_test, y_train, y_test  BY Yourself
 	train = pd.read_csv('../train.csv')
 	test  = pd.read_csv('../test.csv')
 	X_train = train[variable].copy()
